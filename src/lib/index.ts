@@ -254,7 +254,7 @@ export class MedusaClient {
       if (!success) return false
       locals.sid = ''
       locals.user = {}
-      cookies.delete('sid')
+      cookies.delete('sid', { path: '/' })
       return true
    }
 
