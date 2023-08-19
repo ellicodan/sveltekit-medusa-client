@@ -1,6 +1,6 @@
 import cookie from 'cookie'
 import { SuperFetch } from 'sveltekit-superfetch'
-import type { ProductDTO } from '@medusajs/types'
+import type { ProductCategoryDTO, ProductDTO } from '@medusajs/types'
 import type { Cookies, RequestEvent } from '@sveltejs/kit'
 import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
@@ -12,6 +12,14 @@ export interface ProductRetrievalOptions {
    expand?: string
    fields?: string
    query?: string
+}
+
+export interface CategoryRetrievalOptions {
+  query?: string
+  offset?: number
+  limit?: number
+  expand?: string
+  fields?: string
 }
 
 export interface CollectionRetrievalOptions {
@@ -288,6 +296,13 @@ export class MedusaClient {
       const queryString = this.buildQuery('/store/products', options)
       return await this.query({ path: queryString })
       .then((res:any) => res.json()).then((data:any) => data.products).catch(() => null)
+   }
+
+   async getProductCategories(options:CategoryRetrievalOptions = {}): Promise<ProductCategoryDTO[]|null> {
+      // returns an array of top-level product categories and their descendants (nested)
+      const queryString = this.buildQuery('/store/product-categories?parent_category_id=null&include_descendants_tree=true', options)
+      return await this.query({ path: queryString })
+      .then((res:any) => res.json()).then((data:any) => data.product_categories).catch(() => null)
    }
 
    async getCollections(options:CollectionRetrievalOptions = {}) {
