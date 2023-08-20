@@ -1,9 +1,9 @@
 import cookie from 'cookie'
 import { SuperFetch } from 'sveltekit-superfetch'
-import type { ProductCategoryDTO, ProductDTO } from '@medusajs/types'
 import type { Cookies, RequestEvent } from '@sveltejs/kit'
 import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
+import type { ProductCategoryDTO, ProductDTO } from '$lib/types/medusa/product'
 
 export interface ProductRetrievalOptions {
    limit?: number
